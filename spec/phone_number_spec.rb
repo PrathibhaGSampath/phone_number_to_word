@@ -3,9 +3,9 @@ require_relative '../lib/phone_number.rb'
 describe "PhoneNumber" do
 
   it ".letter_mapping_for_number should return letter mapping arrays" do
-    search_object = PhoneNumber.new("2")
+    search_object = PhoneNumber.new("2345678922")
 
-    expect(search_object.send :letter_mapping_for_number).to eq [["a", "b", "c"]]
+    expect(search_object.send :letter_mapping_for_number).to eq [["a", "b", "c"], ["d", "e", "f"], ["g", "h", "i"], ["j", "k", "l"], ["m", "n", "o"], ["p", "q", "r", "s"], ["t", "u", "v"], ["w", "x", "y", "z"], ["a", "b", "c"], ["a", "b", "c"]]
   end
 
   it ".find_valid_words should return all valid words from dictionary" do
