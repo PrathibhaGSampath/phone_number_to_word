@@ -21,33 +21,39 @@ class PhoneNumber
 	end
 
 	def words_combination
-		words_size_combinations = WordSizeCombination.new(3).get_size_combinations
+		unless @letters_combination.empty?
+			words_size_combinations = WordSizeCombination.new(3).get_size_combinations
 
-		words_size_combinations.each do |combination|
-			words = []
-			start_index = 0
+			words_size_combinations.each do |combination|
+				words = []
+				start_index = 0
 
-			combination.each do |word_length|
-				end_index = start_index + word_length
-				letters = @letters_combination[start_index...end_index]
-				start_index = end_index
-				split_word_combinations = letters.shift.product(*letters).map(&:join)
-				valid_words = find_valid_words(split_word_combinations)
-				if valid_words.length == 0
-					words = []
-					break  
+				combination.each do |word_length|
+					end_index = start_index + word_length
+					letters = @letters_combination[start_index...end_index]
+					start_index = end_index
+					split_word_combinations = letters.shift.product(*letters).map(&:join)
+					valid_words = find_valid_words(split_word_combinations)
+					if valid_words.length == 0
+						words = []
+						break  
+					end
+					words << valid_words
 				end
-				words << valid_words
+				@combination_words << words unless words.empty?
 			end
-			@combination_words << words unless words.empty?
+			return format_to_the_required_output
 		end
-		return format_to_the_required_output
 	end
 
 
 private
 	def letter_mapping_for_number
-		@letters_combination =  @number.chars.map { |key| NUMBER_LETTER_MAP["#{key}".to_i] }
+		if @number.length == 10
+			return  @number.chars.map { |key| NUMBER_LETTER_MAP["#{key}".to_i] }
+		else
+			return nil
+		end
 	end
 
 	def find_valid_words(word_combinations)
